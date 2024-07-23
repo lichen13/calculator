@@ -1,4 +1,3 @@
-
 import java.util.Scanner;
 
 public class Main {
@@ -13,7 +12,6 @@ public class Main {
                 System.out.println("\nERROR - threadError: Thread stopped. Cannot continue.");
                 return;
         }
-        // WILL BE THE ERROR HANDLER
     }
 
 
