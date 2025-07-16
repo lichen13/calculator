@@ -1,128 +1,111 @@
 import java.util.Scanner;
+import java.util.InputMismatchException;
 
 public class Main {
+    static String useSymbol = "";
+    static Integer number1 = 0;
+    static Integer number2 = 0;
 
-    public static void displayError(String errorName) {
-        switch (errorName) {
-            case "badOption":
-                System.out.println("\nERROR - badOption: Wrong option please try again.");
-                return;
-            
-            case "threadError":
-                System.out.println("\nERROR - threadError: Thread stopped. Cannot continue.");
-                return;
+    public static void exitCalculator() {
+        System.out.println("\nClosing the calculator, have a nice day.\n");
+        System.exit(0);
+    }
+
+    public static void doOperation() {
+        Scanner scanner = new Scanner(System.in);
+        Integer answer = 0;
+
+        System.out.println("\nPlease enter two numbers for your operation:");
+
+        try {
+            System.out.print("[Number 1]: ");
+            number1 = scanner.nextInt();
+            System.out.print("[Number 2]: ");
+            number2 = scanner.nextInt();
+        } catch (InputMismatchException e) {
+            System.out.println("\nError - InputMismatchException: Your number is too large and has been rejected by the calculator.");
+            return;
+        }
+
+        System.out.println("Start of calculations...");
+
+        if (useSymbol.equals("+")) {
+            answer = number1 + number2;
+        } else if (useSymbol.equals("-")) {
+            answer = number1 - number2;
+        } else if (useSymbol.equals("*")) {
+            answer = number1 * number2;
+        } else if (useSymbol.equals("/")) {
+            answer = number1 / number2;
+        }
+
+        System.out.println("The correct answer for this operation is: " + answer);
+    }
+
+    public static void signSelector() {
+        Scanner scanner = new Scanner(System.in);
+
+        String signMenu = """
+        \n=== [ S Y M B O L S] ===
+        Please select a valid symbol below for your operation:
+        + ........................ Addition.
+        - ........................ Subtraction.
+        * ........................ Multiplication.
+        / ........................ Division.""";
+
+        System.out.println(signMenu);
+        System.out.print("[?]: ");
+
+        String optionTaken = scanner.next();
+
+        if (optionTaken.equals("+")) {
+            useSymbol = "+";
+            doOperation();
+        } else if (optionTaken.equals("-")) {
+            useSymbol = "-";
+            doOperation();
+        } else if (optionTaken.equals("*")) {
+            useSymbol = "*";
+            doOperation();
+        } else if (optionTaken.equals("/")) {
+            useSymbol = "/";
+            doOperation();
+        } else {
+            System.out.println("\nError - invalidOption: Your selected option is invalid.");
+            useSymbol = "";
         }
     }
 
-
     public static void displayMenu() {
-        String menuMessage = """
-        \n==={M E N U}===
-        exit ............... Exit the program.
-        bio ................ Display the biography.
-        help ............... Display help.
-        start .............. Start the calculator.""";
-
         Scanner scanner = new Scanner(System.in);
 
-        System.out.println(menuMessage);
-        System.out.print("[?] : ");
+        String menu = """
+        \n=== [ M E N U ] ===
+        exit ..................... End this process.
+        start .................... Start an operation.
+
+        NOTE:
+            - If a number is too large, it might overflow and give wrong answers. Numbers must be integers!""";
+
+        System.out.println(menu);
+        System.out.print("[?]: ");
 
         String optionTaken = scanner.next();
 
         if (optionTaken.equals("exit")) {
-            exitSystem();
-
-        } else if (optionTaken.equals("help")) {
-            displayHelp();
-
-        } else {
-            try {
-                displayError("badOption");
-                Thread.sleep(3000);
-
-            } catch (InterruptedException e1) {
-                displayError("threadError");
-                System.exit(1);
-
-            }
+            exitCalculator();
+        } else if (optionTaken.equals("start")) {
+            signSelector();
         }
     }
 
-
-    public static void exitSystem() {
-        
-        System.out.println("\nExiting system with ERROR STATUS 0. Have a good day.\n");
-        System.exit(0);
-    }
-
-
-    public static void displayHelp() {
-        String helpMessage = """
-        \n==={H E L P}===
-        VERSION: Beta
-        USAGE: <arg1> <arg2> <arg3>
-             - arg1 => First number.
-             - arg2 => Operation sign.
-             - arg3 => Second number.
-        OPERATION SIGNS:
-             - '+' => Addition.
-             - '-' => Soustraction.
-             - '*' => Multiplication.
-             - '/' => Division.
-        IMPORTANT:
-             - Spaces between arguments are required.
-             - x2 numbers / Integers are required.
-             - x1 operation sign is required.
-             - Maximum of 3 arguments are accepted.
-        EXAMPLES:
-            1) 1 + 1 => Answer will be 2.
-            2) 2 - 1 => Answer will be 1.
-            3) 2 * 2 => Answer will be 4.
-            4) 10 / 2 => Answer will be 5.
-            
-        Type 'back' to come back to menu.""";
-
-        while (true) {
-            Scanner scanner = new Scanner(System.in);
-
-            System.out.println(helpMessage);
-            System.out.print("[?] : ");
-            
-            String optionTaken = scanner.next();
-
-            if (optionTaken.equals("back")) {
-                return;
-
-            } else {
-                try {
-                    displayError("badOption");
-                    Thread.sleep(3000);
-
-                } catch (InterruptedException e1) {
-                    displayError("threadError");
-                    System.exit(1);
-
-                }
-
-            }
-        }
-
-        // WILL DISPLAY THE HELP
-    }
-
-
-    public static void displayBio() {
-
-        // WILL DISPLAY THE BIOGRAPHY
-    }
-    
-    
-    // ##############################################
     public static void main(String[] args) {
-        while (true) { 
+        while (true) {
             displayMenu();
         }
-        // MAIN FUNCTION
     }
 }
+
+
+
+
