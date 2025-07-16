@@ -23,7 +23,7 @@ public class Main {
             System.out.print("[Number 2]: ");
             number2 = scanner.nextInt();
         } catch (InputMismatchException e) {
-            System.out.println("\nError - InputMismatchException: Your number is too large and has been rejected by the calculator.");
+            System.out.println("\nError - InputMismatchException.");
             return;
         }
 
